@@ -80,5 +80,10 @@ async def update_todos(req):
     return response.json({'success': True, 'payload': None})
 
 
+@app.get('/api/notes')
+async def list_notes(req):
+    return response.json({'success': False, 'payload': None})
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8001, debug=True)
