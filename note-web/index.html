@@ -20,17 +20,16 @@
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
   <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
   <script src="https://cdn.jsdelivr.net/npm/quill-cursors@1.0.3/dist/quill-cursors.min.js"></script>
-
-  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-  <link rel="stylesheet" href="quill-cursors/quill-cursors.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill-cursors@1.0.3/dist/quill-cursors.css">
 </head>
 
 <body>
   <mdc-layout-grid id='app' style='height: 100vh'>
 
-    <mdc-layout-cell span=2>
+    <mdc-layout-cell span='2'>
       <p>Hello {{uid}}/{{username}}!</p>
 
       <p>在线用户</p>
@@ -40,7 +39,7 @@
 
     </mdc-layout-cell>
 
-    <mdc-layout-cell span=10>
+    <mdc-layout-cell span='10'>
       <div id='editor' refs='editor'></div>
     </mdc-layout-cell>
   </mdc-layout-grid>
