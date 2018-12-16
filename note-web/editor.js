@@ -4,17 +4,6 @@ import { Socket, Presence } from './phoenix.js';
 Quill.register('modules/cursors', QuillCursors);
 Quill.import('modules/cursors');
 
-const template = [
-  '<span class="ql-cursor-selections"></span>',
-  '<span class="ql-cursor-caret-container">',
-  '  <span class="ql-cursor-caret"></span>',
-  '</span>',
-  '<div class="ql-cursor-flag">',
-  '  <small class="ql-cursor-name"></small>',
-  '  <span class="ql-cursor-flag-flap"></span>',
-  '</div>'
-].join('')
-
 let vm = new Vue({
   el: '#app',
   store,
@@ -66,28 +55,20 @@ let vm = new Vue({
 
   methods: {
     textChange(delta, previousDelta, source) {
-      console.dir(delta);
       this.channels[this.defaultGroup].push('text-change', { delta, previousDelta, source })
-
-      let range = this.quill.getSelection();
-      console.dir(range);
-      this.channels[this.defaultGroup].push('selection-change', { range, previousRange: null, source })
+      this.channels[this.defaultGroup].push('selection-change', { range: this.quill.getSelection(), previousRange: null, source })
     },
 
-    selectionChange(range, previousRange, source) {
-      console.dir(range); // index, length
+    selectionChange(range, previousRange, source) { // range: {index, length}
       this.channels[this.defaultGroup].push('selection-change', { range, previousRange, source })
     },
 
     applyDelta(delta) {
-      console.log('applying delta', delta);
       this.quill.updateContents(delta, 'silent');
     },
 
     applyCursor(uid, username, range, color = '#f00') {
-      console.log(`apply cursor, ${uid}, ${username}, ${range}, ${color}`);
       this.cursors.setCursor(uid, range, username, color);
-      // this.cursors.update();
     },
 
     async openSocket(uid, username) {

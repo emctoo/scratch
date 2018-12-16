@@ -19,7 +19,6 @@ app.config['users'] = []
 app.config['todos'] = []
 
 
-@app.post('/api/login')
 async def auth(req):
     f = lambda: hashlib.md5(str(random.random()).encode('utf-8')).hexdigest()[:4]
     last_id = app.config['users'][-1]['uid'] + 1 if app.config['users'] else 1
@@ -30,12 +29,10 @@ async def auth(req):
     return response.json({'success': True, 'payload': user})
 
 
-@app.get('/api/logout')
 async def logout(req):
     return response.json({'success': True, 'payload': None})
 
 
-@app.get('/api/todos')
 async def list_dotos(req):
     return response.json({'success': True, 'payload': app.config['todos']})
 
@@ -58,7 +55,6 @@ def different(values, oldValues):
     return False
 
 
-@app.post('/api/todos')
 async def update_todos(req):
     if not req.json['todos']:
         return response.json({'success': False, 'payload': 'no change'})
@@ -80,10 +76,30 @@ async def update_todos(req):
     return response.json({'success': True, 'payload': None})
 
 
-@app.get('/api/notes')
+async def create_note(req):
+    return response.json({'success': True, 'payload': None})
+
+
+async def update_note(req):
+    return response.json({'success': True, 'payload': None})
+
+
 async def list_notes(req):
     return response.json({'success': False, 'payload': None})
 
+
+routes = [
+    (auth, '/api/login', 'POST'),
+    (logout, '/api/logout', 'GET'),
+    (list_dotos, '/api/todos', 'GET'),
+    (update_todos, '/api/todos', 'POST'),
+    (list_notes, '/api/note', 'GET'),
+    (create_note, '/api/note', 'PUT'),
+    (update_note, '/api/note', 'PATCH'),
+]
+
+for handler, uri, method in routes:
+    app.add_route(handler, uri, methods=[method])
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8001, debug=True)
