@@ -1,0 +1,15 @@
+0.0.0.0:8000/todo {
+	root todo-web
+    log / stdout
+    proxy /api localhost:8001
+    proxy /event-bus localhost:4000
+    proxy /event-bus/websocket localhost:4000 { websocket }
+}
+
+0.0.0.0:8000 {
+	root note-web
+  	log / stdout
+    proxy /api localhost:8001
+    proxy /event-bus localhost:4000
+    proxy /event-bus/websocket localhost:4000 { websocket }
+}

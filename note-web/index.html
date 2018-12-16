@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Some Notes</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,400,500">
+
+  <script src="https://unpkg.com/vue@2.5.21/dist/vue.js"></script>
+  <script src="https://unpkg.com/vuex"></script>
+
+  <script src="https://unpkg.com/vue-mdc-adapter"></script>
+
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/quill-cursors@1.0.3/dist/quill-cursors.min.js"></script>
+
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <link rel="stylesheet" href="quill-cursors/quill-cursors.css">
+</head>
+
+<body>
+  <mdc-layout-grid id='app' style='height: 100vh'>
+
+    <mdc-layout-cell span=2>
+      <p>Hello {{uid}}/{{username}}!</p>
+
+      <p>在线用户</p>
+      <mdc-chip-set choice>
+        <mdc-chip v-for='user of users["group:system"]' :key='user.uid'>{{user.username}}</mdc-chip>
+      </mdc-chip-set>
+
+    </mdc-layout-cell>
+
+    <mdc-layout-cell span=10>
+      <div id='editor' refs='editor'></div>
+    </mdc-layout-cell>
+  </mdc-layout-grid>
+
+  <script type='module' src='./phoenix.js'></script>
+  <script type='module' src='./store.js'></script>
+  <script type='module' src='./editor.js'></script>
+</body>
+
+</html>
