@@ -1,6 +1,8 @@
 # online real-time co-authoring
 
-Welcome any contribution.
+## development
 
-## license MIT.
+Active development at https://gitlab.com/emctoo/scratch.git, please submit issue/pull request there.
+Any contribution is welcome!
 
+## LICENSE UNDER GPL.
