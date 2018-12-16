@@ -4,7 +4,7 @@ import { Socket, Presence } from './phoenix.js';
 Quill.register('modules/cursors', QuillCursors);
 Quill.import('modules/cursors');
 
-let vm = new Vue({
+window.$vm = new Vue({
   el: '#app',
   store,
   data() {
@@ -16,6 +16,8 @@ let vm = new Vue({
       editorOption: {
         theme: 'snow',
         modules: {
+          syntax: true,
+          toolbar: '#toolbar-container',
           cursors: true
         },
       },
@@ -27,7 +29,7 @@ let vm = new Vue({
       defaultGroup: 'group:system',
       channels: [],
       presences: {},
-      users: {},
+      groupUsers: {},
     }
   },
 
@@ -159,25 +161,23 @@ let vm = new Vue({
 
         let groupUserList = this.presences[group].list(listBy);
         groupUserList.pop();
-        console.dir(groupUserList);
-        Vue.set(this.users, group, groupUserList);
+        Vue.set(this.groupUsers, group, groupUserList);
       })
 
       this.presences[group].onJoin((id, current, { metas: targets }) => {
-        console.dir(targets);
         targets.forEach(joined => console.log(`${joined.username} joins ${group}.`));
       })
 
       this.presences[group].onLeave((id, current, { metas: targets }) => {
-        console.dir(targets);
         targets.forEach(left => console.log(`${left.username} leaves ${group}`));
       })
     },
   },
 
   computed: {
-    editor() {
-      return this.$refs.editor.quill;
-    },
+    currentUsers() {
+      if (this.groupUsers.hasOwnProperty(this.defaultGroup) === false) return [];
+      return this.groupUsers[this.defaultGroup].filter(u => this.uid !== parseInt(u.uid));
+    }
   }
 })

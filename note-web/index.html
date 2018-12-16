@@ -18,6 +18,7 @@
   <script src="https://unpkg.com/vue-mdc-adapter"></script>
 
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 
   <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
   <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
@@ -29,18 +30,61 @@
 <body>
   <mdc-layout-grid id='app' style='height: 100vh'>
 
-    <mdc-layout-cell span='2'>
-      <p>Hello {{uid}}/{{username}}!</p>
-
-      <p>在线用户</p>
+    <mdc-layout-cell span='7'>
       <mdc-chip-set choice>
-        <mdc-chip v-for='user of users["group:system"]' :key='user.uid'>{{user.username}}</mdc-chip>
+        <mdc-chip v-for='user of currentUsers' :key='user.uid'>{{user.username}}</mdc-chip>
       </mdc-chip-set>
 
+      <div id="toolbar-container">
+        <span class="ql-formats">
+          <select class="ql-font"></select>
+          <select class="ql-size"></select>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-bold"></button>
+          <button class="ql-italic"></button>
+          <button class="ql-underline"></button>
+          <button class="ql-strike"></button>
+        </span>
+        <span class="ql-formats">
+          <select class="ql-color"></select>
+          <select class="ql-background"></select>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-script" value="sub"></button>
+          <button class="ql-script" value="super"></button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-header" value="1"></button>
+          <button class="ql-header" value="2"></button>
+          <button class="ql-blockquote"></button>
+          <button class="ql-code-block"></button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-list" value="ordered"></button>
+          <button class="ql-list" value="bullet"></button>
+          <button class="ql-indent" value="-1"></button>
+          <button class="ql-indent" value="+1"></button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-direction" value="rtl"></button>
+          <select class="ql-align"></select>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-link"></button>
+          <button class="ql-image"></button>
+          <button class="ql-video"></button>
+          <button class="ql-formula"></button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-clean"></button>
+        </span>
+      </div>
+      <div id='editor' refs='editor'></div>
     </mdc-layout-cell>
 
-    <mdc-layout-cell span='10'>
-      <div id='editor' refs='editor'></div>
+    <mdc-layout-cell span='2'>
+      <p>Hello {{uid}}/{{username}}!</p>
     </mdc-layout-cell>
   </mdc-layout-grid>
 
