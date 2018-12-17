@@ -44,13 +44,12 @@ window.$vm = new Vue({
 
     console.log(`authed, uid: ${this.uid}, username: ${this.username}`);
 
+    this.quill = new Quill('#editor', this.editorOption);
+
     console.log(`socket 创建 ..`);
     await this.openSocket(this.uid, this.username);
 
-    this.quill = new Quill('#editor', this.editorOption);
-
-    // init content
-    (await axios.get('/api/note/0')).data.payload.forEach(delta => this.quill.updateContents(delta, 'silent'));
+    this.initContent();
 
     this.cursors = this.quill.getModule('cursors');
 
@@ -60,6 +59,9 @@ window.$vm = new Vue({
   },
 
   methods: {
+    initContent() {
+      (await axios.get('/api/note/0')).data.payload.forEach(delta => this.quill.updateContents(delta, 'silent'));
+    },
     textChange(delta, previousDelta, source) {
       this.channels[this.defaultGroup].push('text-change', { delta, previousDelta, source })
       this.channels[this.defaultGroup].push('selection-change', { range: this.quill.getSelection(), previousRange: null, source })
