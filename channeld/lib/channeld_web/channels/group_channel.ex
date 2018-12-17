@@ -4,7 +4,7 @@ defmodule ChanneldWeb.GroupChannel do
 
   alias ChanneldWeb.Presence
 
-  def join("group:system", %{"username" => username, "uid" => uid} = message, socket) do
+  def join("group:system", %{"uid" => uid} = message, socket) do
     Process.flag(:trap_exit, true)
 
     Logger.info("#### group: group:system, id: #{uid} joins, message: #{inspect(message)}")
@@ -76,6 +76,18 @@ defmodule ChanneldWeb.GroupChannel do
     :ok
   end
 
+  use Tesla
+
+  defp sync_message(event, uid, message) do
+    url = "http://localhost:8000/api/note/message"
+    payload = %{"event" => event, "uid" => uid, "message" => message}
+    headers = [{"Content-Type", "application/json"}]
+    {:ok, response} = Tesla.post(url, Jason.encode!(payload), headers: headers)
+
+    response_json = Jason.decode!(response.body)
+    Logger.info("body json: #{inspect(response_json, pretty: true)}")
+  end
+
   def handle_in(event, message, socket) do
     Logger.info("event: #{event}, message: #{inspect(message, pretty: true)}")
 
@@ -89,6 +101,7 @@ defmodule ChanneldWeb.GroupChannel do
     }
 
     broadcast!(socket, event, new_message)
+    sync_message(event, socket.assigns.uid, message)
     {:reply, {:ok, %{message: message}}, assign(socket, :user, message["user"])}
   end
 

@@ -48,6 +48,10 @@ window.$vm = new Vue({
     await this.openSocket(this.uid, this.username);
 
     this.quill = new Quill('#editor', this.editorOption);
+
+    // init content
+    (await axios.get('/api/note/0')).data.payload.forEach(delta => this.quill.updateContents(delta, 'silent'));
+
     this.cursors = this.quill.getModule('cursors');
 
     this.quill.on('text-change', this.textChange);

@@ -28,7 +28,7 @@ defmodule ChanneldWeb.UserSocket do
     {:ok, socket}
   end
 
-  def connect(_params, socket, _connect_info), do: :error
+  def connect(_params, _socket, _connect_info), do: :error
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
   #

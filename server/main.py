@@ -17,6 +17,7 @@ app = sanic.Sanic()
 app.config['event-bus-host'] = 'localhost:4000'
 app.config['users'] = []
 app.config['todos'] = []
+app.config['delta'] = []
 
 
 async def auth(req):
@@ -88,6 +89,17 @@ async def list_notes(req):
     return response.json({'success': False, 'payload': None})
 
 
+async def sync_messages(req):
+    logging.info('message: %s', req.json)
+    if req.json['event'] == 'text-change':
+        app.config['delta'].append(req.json['message']['delta'])
+    return response.json({'success': True, 'payload': None})
+
+
+async def current_note(req, note_id: int):
+    return response.json({'success': True, 'payload': app.config['delta']})
+
+
 routes = [
     (auth, '/api/login', 'POST'),
     (logout, '/api/logout', 'GET'),
@@ -96,6 +108,8 @@ routes = [
     (list_notes, '/api/note', 'GET'),
     (create_note, '/api/note', 'PUT'),
     (update_note, '/api/note', 'PATCH'),
+    (sync_messages, '/api/note/message', 'POST'),
+    (current_note, '/api/note/<note_id:int>', 'GET'),
 ]
 
 for handler, uri, method in routes:
