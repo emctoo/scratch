@@ -9,11 +9,7 @@ class ZefyrLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text('Ze'),
-        FlutterLogo(size: 24.0),
-        Text('yr'),
-      ],
+      children: <Widget>[Text('Some'), FlutterLogo(size: 24.0), Text('Notes')],
     );
   }
 }
@@ -38,7 +34,7 @@ class _FullPageEditorScreenState extends State<FullPageEditorScreen> {
   final ZefyrController _controller =
       ZefyrController(NotusDocument.fromDelta(getDelta()));
   final FocusNode _focusNode = new FocusNode();
-  bool _editing = false;
+  bool _editing = true;
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +47,6 @@ class _FullPageEditorScreenState extends State<FullPageEditorScreen> {
       ),
     );
 
-    final done = _editing
-        ? [new FlatButton(onPressed: _stopEditing, child: Text('DONE'))]
-        : [new FlatButton(onPressed: _startEditing, child: Text('EDIT'))];
     return Scaffold(
       resizeToAvoidBottomPadding: true,
       appBar: AppBar(
@@ -61,7 +54,6 @@ class _FullPageEditorScreenState extends State<FullPageEditorScreen> {
         backgroundColor: Colors.grey.shade200,
         brightness: Brightness.light,
         title: ZefyrLogo(),
-        actions: done,
       ),
       body: ZefyrScaffold(
         child: ZefyrTheme(
@@ -76,22 +68,9 @@ class _FullPageEditorScreenState extends State<FullPageEditorScreen> {
       ),
     );
   }
-
-  void _startEditing() {
-    setState(() {
-      _editing = true;
-    });
-  }
-
-  void _stopEditing() {
-    setState(() {
-      _editing = false;
-    });
-  }
 }
 
-/// Custom image delegate used by this example to load image from application
-/// assets.
+/// Custom image delegate used by this example to load image from application assets.
 ///
 /// Default image delegate only supports [FileImage]s.
 class CustomImageDelegate extends ZefyrDefaultImageDelegate {

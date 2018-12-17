@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 import 'package:flutter/material.dart';
 
-import 'src/form.dart';
 import 'src/full_page.dart';
 
 void main() {
@@ -17,52 +16,7 @@ class ZefyrApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Zefyr Editor',
       theme: ThemeData(primarySwatch: Colors.cyan),
-      home: HomePage(),
-      routes: {
-        "/fullPage": buildFullPage,
-        "/form": buildFormPage,
-      },
-    );
-  }
-
-  Widget buildFullPage(BuildContext context) {
-    return FullPageEditorScreen();
-  }
-
-  Widget buildFormPage(BuildContext context) {
-    return FormEmbeddedScreen();
-  }
-}
-
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final nav = Navigator.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 1.0,
-        backgroundColor: Colors.grey.shade200,
-        brightness: Brightness.light,
-        title: ZefyrLogo(),
-      ),
-      body: Column(
-        children: <Widget>[
-          Expanded(child: Container()),
-          FlatButton(
-            onPressed: () => nav.pushNamed('/fullPage'),
-            child: Text('Full page editor'),
-            color: Colors.lightBlue,
-            textColor: Colors.white,
-          ),
-          FlatButton(
-            onPressed: () => nav.pushNamed('/form'),
-            child: Text('Embedded in a form'),
-            color: Colors.lightBlue,
-            textColor: Colors.white,
-          ),
-          Expanded(child: Container()),
-        ],
-      ),
+      home: FullPageEditorScreen(),
     );
   }
 }
